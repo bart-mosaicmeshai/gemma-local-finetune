@@ -4,7 +4,10 @@ Test script to interact with the base (untrained/pre-trained) Gemma model
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from config import TrainingConfig
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from core.config import TrainingConfig
 
 
 def load_base_model(model_name: str):

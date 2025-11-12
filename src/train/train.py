@@ -11,8 +11,11 @@ from transformers import (
     Trainer,
     DataCollatorForLanguageModeling
 )
-from config import TrainingConfig, get_default_config
-from data_utils import prepare_dataset_for_training
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from core.config import TrainingConfig, get_default_config
+from core.data_utils import prepare_dataset_for_training
 import warnings
 
 warnings.filterwarnings('ignore')

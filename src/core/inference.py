@@ -63,7 +63,9 @@ class GemmaInference:
         temperature: float = 0.7,
         top_p: float = 0.9,
         top_k: int = 50,
-        do_sample: bool = True
+        do_sample: bool = True,
+        min_new_tokens: int = None,
+        repetition_penalty: float = 1.0
     ) -> str:
         """
         Generate text from prompt
@@ -91,17 +93,23 @@ class GemmaInference:
         ).to(self.device)
 
         # Generate
+        gen_kwargs = {
+            "max_new_tokens": max_new_tokens,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "do_sample": do_sample,
+            "pad_token_id": self.tokenizer.pad_token_id,
+            "eos_token_id": self.tokenizer.eos_token_id,
+            "repetition_penalty": repetition_penalty,
+        }
+
+        # Add min_new_tokens if specified
+        if min_new_tokens is not None:
+            gen_kwargs["min_new_tokens"] = min_new_tokens
+
         with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                top_p=top_p,
-                top_k=top_k,
-                do_sample=do_sample,
-                pad_token_id=self.tokenizer.pad_token_id,
-                eos_token_id=self.tokenizer.eos_token_id
-            )
+            outputs = self.model.generate(**inputs, **gen_kwargs)
 
         # Decode
         generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=False)
