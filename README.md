@@ -88,6 +88,7 @@ from src.train import train
 config = TrainingConfig(
     model_name="google/gemma-3-270m",
     dataset_name="bebechien/MobileGameNPC",
+    dataset_config="martian",  # Options: "martian" or "venusian"
     num_train_epochs=5,
     per_device_train_batch_size=4,
     learning_rate=5e-5,
@@ -105,30 +106,19 @@ After training completes, test your fine-tuned model:
 python src/inference.py outputs/final_model "Hello! Tell me about yourself."
 ```
 
-**Interactive Chat Mode:**
-Create an interactive script to chat with your fine-tuned model:
+**Interactive Chat Mode (Recommended):**
+Use the built-in chat script for a better experience:
 ```bash
 cd src
-python -c "
-from inference import GemmaInference
-
-# Load fine-tuned model
-inference = GemmaInference('../outputs/final_model')
-
-print('Chat with your fine-tuned model. Type quit to exit.\\n')
-
-while True:
-    prompt = input('You: ').strip()
-    if prompt.lower() in ['quit', 'exit', 'q']:
-        break
-    if prompt:
-        response = inference.generate(prompt, max_new_tokens=150)
-        print(f'Model: {response}\\n')
-"
+python chat_with_model.py
 ```
 
+This provides a friendly chat interface where you can have conversations with your fine-tuned model.
+
 **Compare Base vs Fine-tuned:**
-Test the same prompts on both models to see the improvement!
+- Base model: May show repetitive loops or incoherent responses
+- Fine-tuned model: Responds with learned personality (e.g., Martian dialect)
+- The improvement demonstrates successful fine-tuning!
 
 ## Project Structure
 
@@ -156,6 +146,7 @@ Key parameters in `TrainingConfig`:
 |-----------|---------|-------------|
 | `model_name` | `google/gemma-3-270m` | Model to fine-tune |
 | `dataset_name` | `bebechien/MobileGameNPC` | Dataset to use |
+| `dataset_config` | `"martian"` | Dataset configuration (e.g., "martian", "venusian") |
 | `num_train_epochs` | `5` | Number of training epochs |
 | `per_device_train_batch_size` | `4` | Batch size per device |
 | `learning_rate` | `5e-5` | Learning rate |
@@ -167,10 +158,12 @@ Key parameters in `TrainingConfig`:
 
 Start with smaller models and scale up:
 
-- `google/gemma-3-270m` - 270M parameters (recommended for testing)
-- `google/gemma-3-1b` - 1B parameters
-- `google/gemma-3-2b` - 2B parameters
-- `google/gemma-3-7b` - 7B parameters (requires significant RAM)
+- `google/gemma-3-270m` - 270M parameters (fast training, good for testing, may produce shorter responses)
+- `google/gemma-3-1b` - 1B parameters (better response quality, still fast)
+- `google/gemma-3-2b` - 2B parameters (excellent quality/speed balance)
+- `google/gemma-3-7b` - 7B parameters (best quality, requires significant RAM)
+
+**Note:** Smaller models (270M) may generate shorter or less coherent responses. For production use, consider 1B or larger models.
 
 ## Using Custom Datasets
 
