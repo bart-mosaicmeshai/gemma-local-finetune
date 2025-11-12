@@ -45,7 +45,8 @@ huggingface/
 
 # Jupyter
 .ipynb_checkpoints/
-*.ipynb
+# Allow notebooks in notebooks/ directory
+# *.ipynb
 
 # IDE
 .vscode/
