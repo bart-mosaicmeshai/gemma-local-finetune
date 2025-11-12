@@ -16,6 +16,7 @@ class TrainingConfig:
 
     # Dataset settings
     dataset_name: str = "bebechien/MobileGameNPC"
+    dataset_config: Optional[str] = "martian"  # Options: "martian", "venusian"
     max_seq_length: int = 512
 
     # Training hyperparameters

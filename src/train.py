@@ -133,7 +133,8 @@ def train(config: TrainingConfig = None):
         config.dataset_name,
         config.model_name,
         config.max_seq_length,
-        config.hf_token
+        config.hf_token,
+        config.dataset_config
     )
 
     print(f"Training samples: {len(train_dataset)}")

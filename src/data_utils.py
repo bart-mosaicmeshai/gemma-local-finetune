@@ -11,7 +11,8 @@ def load_and_prepare_dataset(
     dataset_name: str,
     tokenizer: AutoTokenizer,
     max_seq_length: int = 512,
-    split: str = "train"
+    split: str = "train",
+    config_name: Optional[str] = None
 ) -> Any:
     """
     Load and prepare dataset for training
@@ -21,12 +22,16 @@ def load_and_prepare_dataset(
         tokenizer: Tokenizer to use for preprocessing
         max_seq_length: Maximum sequence length
         split: Dataset split to load
+        config_name: Dataset configuration name (if dataset has multiple configs)
 
     Returns:
         Prepared dataset
     """
     # Load dataset
-    dataset = load_dataset(dataset_name, split=split)
+    if config_name:
+        dataset = load_dataset(dataset_name, config_name, split=split)
+    else:
+        dataset = load_dataset(dataset_name, split=split)
 
     print(f"Loaded {len(dataset)} examples from {dataset_name}")
     print(f"Dataset columns: {dataset.column_names}")
@@ -56,6 +61,11 @@ def format_instruction_prompt(example: Dict[str, Any]) -> Dict[str, Any]:
         prompt = example['prompt']
         completion = example['completion']
         text = f"<start_of_turn>user\n{prompt}<end_of_turn>\n<start_of_turn>model\n{completion}<end_of_turn>"
+    elif 'player' in example and 'alien' in example:
+        # MobileGameNPC dataset format
+        player = example['player']
+        alien = example['alien']
+        text = f"<start_of_turn>user\n{player}<end_of_turn>\n<start_of_turn>model\n{alien}<end_of_turn>"
     elif 'text' in example:
         text = example['text']
     else:
@@ -93,7 +103,8 @@ def prepare_dataset_for_training(
     dataset_name: str,
     model_name: str,
     max_seq_length: int = 512,
-    hf_token: Optional[str] = None
+    hf_token: Optional[str] = None,
+    dataset_config: Optional[str] = None
 ) -> tuple:
     """
     Complete pipeline to prepare dataset for training
@@ -103,6 +114,7 @@ def prepare_dataset_for_training(
         model_name: Name of the model (for tokenizer)
         max_seq_length: Maximum sequence length
         hf_token: Hugging Face token for authentication
+        dataset_config: Dataset configuration name (e.g., 'martian', 'venusian')
 
     Returns:
         Tuple of (dataset, tokenizer)
@@ -122,7 +134,8 @@ def prepare_dataset_for_training(
     dataset = load_and_prepare_dataset(
         dataset_name,
         tokenizer,
-        max_seq_length
+        max_seq_length,
+        config_name=dataset_config
     )
 
     # Format dataset

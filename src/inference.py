@@ -41,11 +41,16 @@ class GemmaInference:
         print(f"Device: {device}")
 
         # Load model and tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_path,
+            local_files_only=True,
+            trust_remote_code=True
+        )
         self.model = AutoModelForCausalLM.from_pretrained(
             model_path,
             torch_dtype=torch.float32,
-            trust_remote_code=True
+            trust_remote_code=True,
+            local_files_only=True
         ).to(device)
 
         self.model.eval()
@@ -101,13 +106,21 @@ class GemmaInference:
         # Decode
         generated_text = self.tokenizer.decode(outputs[0], skip_special_tokens=False)
 
+        # Debug: print full generation to see what's happening
+        # print(f"\n[DEBUG] Full generation:\n{generated_text}\n")
+
         # Extract only the model's response
         if "<start_of_turn>model" in generated_text:
             response = generated_text.split("<start_of_turn>model")[-1]
-            response = response.split("<end_of_turn>")[0].strip()
+            # Don't split on <end_of_turn> yet, let's see more
+            if "<end_of_turn>" in response:
+                response = response.split("<end_of_turn>")[0]
+            response = response.strip()
         else:
             response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
+        # If response is very short, it might be hitting EOS too early
+        # This is expected with small models and limited training data
         return response
 
 
