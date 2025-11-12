@@ -40,14 +40,34 @@ source venv/bin/activate
 Gemma models require authentication:
 
 1. Create account at [huggingface.co](https://huggingface.co)
-2. Accept Gemma license at [google/gemma-2-270m](https://huggingface.co/google/gemma-2-270m)
+2. Accept Gemma license at [google/gemma-3-270m](https://huggingface.co/google/gemma-3-270m)
 3. Create access token at [Settings > Tokens](https://huggingface.co/settings/tokens)
 4. Login via CLI:
 ```bash
 huggingface-cli login
 ```
 
-### 3. Run Training
+### 3. Test the Base Model (Optional but Recommended)
+
+Before fine-tuning, interact with the base model to see its behavior:
+
+**Interactive Chat Mode:**
+```bash
+cd src
+python test_base_model.py
+```
+
+Type your questions and see how the untrained model responds. Type `quit` to exit.
+
+**Test with Predefined Prompts:**
+```bash
+cd src
+python test_base_model.py --test
+```
+
+**Note:** The base model may show odd behavior like repetition loops or incoherent responses. This demonstrates why fine-tuning is valuable!
+
+### 4. Run Training
 
 **Option A: Using Python Script**
 ```bash
@@ -66,7 +86,7 @@ from src.config import TrainingConfig
 from src.train import train
 
 config = TrainingConfig(
-    model_name="google/gemma-2-270m",
+    model_name="google/gemma-3-270m",
     dataset_name="bebechien/MobileGameNPC",
     num_train_epochs=5,
     per_device_train_batch_size=4,
@@ -76,11 +96,39 @@ config = TrainingConfig(
 train(config)
 ```
 
-### 4. Test Your Model
+### 5. Test Your Fine-tuned Model
 
+After training completes, test your fine-tuned model:
+
+**Quick Test (Single Prompt):**
 ```bash
 python src/inference.py outputs/final_model "Hello! Tell me about yourself."
 ```
+
+**Interactive Chat Mode:**
+Create an interactive script to chat with your fine-tuned model:
+```bash
+cd src
+python -c "
+from inference import GemmaInference
+
+# Load fine-tuned model
+inference = GemmaInference('../outputs/final_model')
+
+print('Chat with your fine-tuned model. Type quit to exit.\\n')
+
+while True:
+    prompt = input('You: ').strip()
+    if prompt.lower() in ['quit', 'exit', 'q']:
+        break
+    if prompt:
+        response = inference.generate(prompt, max_new_tokens=150)
+        print(f'Model: {response}\\n')
+"
+```
+
+**Compare Base vs Fine-tuned:**
+Test the same prompts on both models to see the improvement!
 
 ## Project Structure
 
@@ -106,7 +154,7 @@ Key parameters in `TrainingConfig`:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `model_name` | `google/gemma-2-270m` | Model to fine-tune |
+| `model_name` | `google/gemma-3-270m` | Model to fine-tune |
 | `dataset_name` | `bebechien/MobileGameNPC` | Dataset to use |
 | `num_train_epochs` | `5` | Number of training epochs |
 | `per_device_train_batch_size` | `4` | Batch size per device |
@@ -119,10 +167,10 @@ Key parameters in `TrainingConfig`:
 
 Start with smaller models and scale up:
 
-- `google/gemma-2-270m` - 270M parameters (recommended for testing)
-- `google/gemma-2-1b` - 1B parameters
-- `google/gemma-2-2b` - 2B parameters
-- `google/gemma-2-7b` - 7B parameters (requires significant RAM)
+- `google/gemma-3-270m` - 270M parameters (recommended for testing)
+- `google/gemma-3-1b` - 1B parameters
+- `google/gemma-3-2b` - 2B parameters
+- `google/gemma-3-7b` - 7B parameters (requires significant RAM)
 
 ## Using Custom Datasets
 
@@ -158,7 +206,7 @@ Then open http://localhost:6006 in your browser.
 
 ## Tips for Apple Silicon
 
-1. **Start small**: Begin with `gemma-2-270m` before trying larger models
+1. **Start small**: Begin with `gemma-3-270m` before trying larger models
 2. **Monitor memory**: Use Activity Monitor to watch RAM usage
 3. **Reduce batch size**: If you run out of memory, lower `per_device_train_batch_size`
 4. **Enable gradient checkpointing**: Saves memory at cost of speed
@@ -195,10 +243,10 @@ On M4 Max (128GB RAM):
 
 | Model | Batch Size | Time/Epoch (approx) |
 |-------|-----------|---------------------|
-| gemma-2-270m | 4 | ~5-10 minutes |
-| gemma-2-1b | 4 | ~15-25 minutes |
-| gemma-2-2b | 2 | ~30-45 minutes |
-| gemma-2-7b | 1 | ~1-2 hours |
+| gemma-3-270m | 4 | ~5-10 minutes |
+| gemma-3-1b | 4 | ~15-25 minutes |
+| gemma-3-2b | 2 | ~30-45 minutes |
+| gemma-3-7b | 1 | ~1-2 hours |
 
 *Times vary based on dataset size and sequence length*
 

@@ -12,7 +12,7 @@ class TrainingConfig:
     """Training configuration parameters"""
 
     # Model settings
-    model_name: str = "google/gemma-2-270m"  # Options: gemma-2-270m, gemma-2-1b, gemma-2-2b, gemma-2-7b
+    model_name: str = "google/gemma-3-270m"  # Options: gemma-3-270m, gemma-3-1b, gemma-3-2b, gemma-3-7b
 
     # Dataset settings
     dataset_name: str = "bebechien/MobileGameNPC"
