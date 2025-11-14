@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluey AI - Chat with Your Fine-Tuned Model</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐕 Bluey AI Chatbot</h1>
+            <p class="subtitle">Powered by Gemma 270M • Running locally in your browser</p>
+        </header>
+
+        <div id="status" class="status">
+            <div class="status-indicator" id="statusIndicator"></div>
+            <span id="statusText">Initializing...</span>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message">
+                <h2>G'day! I'm Bluey!</h2>
+                <p>Chat with me using a fine-tuned AI model running entirely in your browser.</p>
+                <ul>
+                    <li>✅ 100% Private - No data sent to servers</li>
+                    <li>✅ Works Offline - After initial model load</li>
+                    <li>✅ Free - No API costs</li>
+                </ul>
+                <p class="note"><strong>Note:</strong> First load will download ~700MB model. This may take a few minutes.</p>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <textarea
+                id="userInput"
+                placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
+                rows="3"
+                disabled
+            ></textarea>
+            <button id="sendButton" disabled>
+                <span id="buttonText">Send</span>
+                <span id="buttonSpinner" class="spinner" style="display: none;"></span>
+            </button>
+        </div>
+
+        <div class="info-panel">
+            <details>
+                <summary>ℹ️ Model Information</summary>
+                <div class="info-content">
+                    <p><strong>Model:</strong> Gemma 270M (Fine-tuned for Bluey personality)</p>
+                    <p><strong>Size:</strong> ~700MB (4-bit quantized ONNX)</p>
+                    <p><strong>Technology:</strong> Transformers.js + WebGPU</p>
+                    <p><strong>Privacy:</strong> All processing happens locally in your browser</p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script type="module" src="app.js?v=9"></script>
+</body>
+</html>

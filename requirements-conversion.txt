@@ -1,0 +1,22 @@
+# Requirements for ONNX model conversion
+# Use Python 3.12 (ONNX Runtime doesn't support 3.14 yet)
+#
+# To use:
+#   python3.12 -m venv venv_convert
+#   source venv_convert/bin/activate  # or venv_convert\Scripts\activate on Windows
+#   pip install -r requirements-conversion.txt
+
+# Core conversion libraries
+transformers>=4.55.0
+torch>=2.0.0
+optimum>=2.0.0
+optimum-onnx>=0.0.3
+
+# ONNX dependencies
+onnx>=1.17.0
+onnxruntime>=1.20.0
+onnxslim>=0.1.48
+
+# Utilities
+numpy>=2.0.0
+tqdm>=4.67.0

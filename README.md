@@ -140,8 +140,10 @@ gemma-local-finetune/
 │   │   ├── test_base_model.py # Test untrained models
 │   │   ├── test_generation_params.py # Parameter optimization
 │   │   └── test_params_it.py # IT model parameter testing
-│   ├── outputs/           # Trained models
-│   └── logs/              # Training logs
+│   ├── export/            # Model export/conversion
+│   │   └── convert_to_onnx.py # Export to ONNX for web deployment
+│   ├── outputs/           # Trained models (generated)
+│   └── logs/              # Training logs (generated)
 ├── datasets/              # Training datasets
 ├── notebooks/             # Jupyter notebooks
 │   └── quickstart.ipynb
@@ -339,20 +341,61 @@ On M4 Max (128GB RAM) with 111 training examples:
 | Privacy | Complete | Cloud-based |
 | Setup | One-time | Per session |
 
+## Web Deployment
+
+After fine-tuning, you can deploy your models to the web for browser-based inference.
+
+### Quick Start
+
+1. **Convert to ONNX and Quantize**:
+```bash
+# See DEPLOYMENT.md for detailed instructions
+python3.12 -m venv venv_convert
+source venv_convert/bin/activate
+pip install -r requirements-conversion.txt
+
+# Follow the steps in DEPLOYMENT.md
+```
+
+2. **Model Size Reduction**:
+   - Original PyTorch: ~1.0GB
+   - Quantized ONNX (Q4): ~700MB (30% reduction)
+
+3. **Deploy with Transformers.js**:
+   - Run models directly in the browser using WebGPU
+   - No server required for inference
+   - Complete privacy - data never leaves the device
+
+### Key Features
+
+✅ **Local Processing**: All inference runs client-side
+✅ **Offline Capable**: Works without internet after initial load
+✅ **Private**: User data stays on their device
+✅ **Cost Effective**: No per-inference API costs
+
+See **[DEPLOYMENT.md](DEPLOYMENT.md)** for complete deployment instructions.
+
 ## Next Steps
 
 1. **Experiment with hyperparameters**: Adjust learning rate, batch size, epochs
 2. **Try different models**: Start small, scale up
 3. **Use your own data**: Adapt dataset loading for custom formats
 4. **Evaluate results**: Test with various prompts
-5. **Optimize for your use case**: Tune for your specific task
+5. **Deploy to web**: Convert to ONNX and deploy with Transformers.js
+6. **Optimize for your use case**: Tune for your specific task
 
 ## Resources
 
+### Training
 - [Original Tutorial](https://ai.google.dev/gemma/docs/core/huggingface_text_full_finetune)
 - [Gemma Models](https://huggingface.co/collections/google/gemma-2-release-667d6600fd5220e7b967f315)
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
 - [PyTorch MPS Backend](https://pytorch.org/docs/stable/notes/mps.html)
+
+### Deployment
+- [Web Deployment Guide](DEPLOYMENT.md) - Convert and deploy models to the browser
+- [Transformers.js Documentation](https://huggingface.co/docs/transformers.js)
+- [Google's On-Device AI Tutorial](https://developers.googleblog.com/en/own-your-ai-fine-tune-gemma-3-270m-for-on-device/)
 
 ## License
 

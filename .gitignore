@@ -74,3 +74,23 @@ data/processed/
 
 # Logs
 *.log
+
+# External repos
+transformers.js/
+
+# ONNX models
+*.onnx
+*.onnx_data
+*_onnx/
+*_onnx_quantized/
+
+# Web deployment models (large files - don't commit)
+web/models/onnx/
+web/models/*.json
+web/models/*.safetensors
+
+# Conversion environment
+venv_convert/
+
+# Conversion script (copied from external source)
+build_gemma.py
