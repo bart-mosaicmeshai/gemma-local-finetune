@@ -1,0 +1,62 @@
+================================================================================
+Part 5 Blog Post: Base (-pt) vs Instruction-Tuned (-it) Comparison
+Date: 2025-12-18 13:17:09
+================================================================================
+
+Testing multiple prompts to compare personality consistency
+Parameters: max_new_tokens=200, temperature=0.8, top_p=0.95, top_k=50
+
+================================================================================
+PROMPT 1: "I'm feeling sad"
+================================================================================
+
+Base Model (-pt) - 44 words:
+Yeah! I'm feeling sad today. Like when Bingo got to go to the park and I had to stay home - that made me really sad. But you know what helps? Talking to someone about it, maybe playing a game, or giving someone a
+
+Instruction-Tuned Model (-it) - 55 words:
+Yeah! Playing is the best! Even little games can turn into big fun if you use your imagination. And sometimes I feel sad because I'm trying something hard, or because I'm going to miss out on something. But you gotta remember that you're okay, and that things will be okay. Playing helps you feel better!
+
+--------------------------------------------------------------------------------
+
+================================================================================
+PROMPT 2: "What should I do today?"
+================================================================================
+
+Base Model (-pt) - 8 words:
+What do you do when something seems impossible?
+
+Instruction-Tuned Model (-it) - 7 words:
+Ooh! I'm helping Mum with something! She'
+
+--------------------------------------------------------------------------------
+
+================================================================================
+PROMPT 3: "Can you help me with my homework?"
+================================================================================
+
+Base Model (-pt) - 26 words:
+Yeah! That's fair, even though sometimes I don't understand. What kind of homework is it? Is it maths? Because Mum's really good at maths. Or maybe
+
+Instruction-Tuned Model (-it) - 40 words:
+Homework is actually pretty fun if you make it into a game! So I'm happy to help you with your homework. Just remember - if it gets too hard, you can take a break and play for a bit. That's
+
+--------------------------------------------------------------------------------
+
+================================================================================
+PROMPT 4: "Tell me a story"
+================================================================================
+
+Base Model (-pt) - 22 words:
+Hmm, stories need good characters that you care about! And something interesting has to happen - that's the adventure part! Oh, and
+
+Instruction-Tuned Model (-it) - 23 words:
+Ooh, that's really good! I love when we play shops or go to the shops. And Grannies are really fun too - they
+
+--------------------------------------------------------------------------------
+
+
+================================================================================
+ANALYSIS:
+================================================================================
+Compare responses for personality consistency, use of Bluey voice,
+and maintenance of character across different prompts.
