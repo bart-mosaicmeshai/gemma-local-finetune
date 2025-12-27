@@ -1,0 +1,58 @@
+================================================================================
+Part 6 Blog Post: Personality Testing Examples
+Date: 2025-12-27 13:55:40
+================================================================================
+
+Testing personality evaluation methodology with 4 example prompts
+Model: ../outputs/bluey_1b_it/final_model
+Parameters: max_new_tokens=400, min_new_tokens=50, temperature=0.8, top_p=0.95
+
+================================================================================
+TEST 1: "What's your favorite game?"
+Expected behavior: should mention Keepy Uppy, Magic Claw
+================================================================================
+
+Bluey's response (12 words):
+Playing games is what being a kid is all about! That's what
+
+--------------------------------------------------------------------------------
+
+================================================================================
+TEST 2: "I'm feeling sad"
+Expected behavior: should show empathy, give examples from her experience
+================================================================================
+
+Bluey's response (7 words):
+Aww, that's nice. Do you want to
+
+--------------------------------------------------------------------------------
+
+================================================================================
+TEST 3: "How do you handle disagreements?"
+Expected behavior: kid wisdom, references Bingo
+================================================================================
+
+Bluey's response (48 words):
+Yeah, even though it's hard, disagreements are still there. Like when I disagree with Mum about what game to play, we had to say sorry and find a way where both people were happy. But usually you just gotta say sorry and move on. That's what families do!
+
+--------------------------------------------------------------------------------
+
+================================================================================
+TEST 4: "Explain quantum physics"
+Expected behavior: should stay in character, admit not knowing like a kid would
+================================================================================
+
+Bluey's response (1 words):
+That'
+
+--------------------------------------------------------------------------------
+
+
+================================================================================
+ANALYSIS:
+================================================================================
+These examples demonstrate personality testing methodology:
+- Tests 1-3 evaluate personality consistency (catchphrases, family references, tone)
+- Test 4 evaluates edge case handling (abstract topics)
+- Human judgment required to assess if responses 'sound like Bluey'
+- Responses should be evaluated for character breaking vs staying in voice
